@@ -63,6 +63,11 @@ func Run(ctx context.Context, opts Options) error {
 	return run(sigCtx, listener, opts)
 }
 
+// RunWithListener will start the server on the provided listener and block until the server is shut down.
+func RunWithListener(ctx context.Context, opts Options, gptscriptListener net.Listener) error {
+	return run(ctx, gptscriptListener, complete(opts))
+}
+
 // EmbeddedStart allows running the server as an embedded process that may use Stdin for input.
 // It returns the address the server is listening on.
 func EmbeddedStart(ctx context.Context, options ...Options) (string, error) {

@@ -16,6 +16,12 @@ import (
 	"github.com/gptscript-ai/gptscript/pkg/types"
 )
 
+var promptHTTPClient *http.Client
+
+func PromptHTTPClient(httpClient *http.Client) {
+	promptHTTPClient = httpClient
+}
+
 func sysPromptHTTP(ctx context.Context, envs []string, url string, prompt types.Prompt) (_ string, err error) {
 	data, err := json.Marshal(prompt)
 	if err != nil {
@@ -35,7 +41,11 @@ func sysPromptHTTP(ctx context.Context, envs []string, url string, prompt types.
 		}
 	}
 
-	resp, err := http.DefaultClient.Do(req)
+	if promptHTTPClient == nil {
+		promptHTTPClient = http.DefaultClient
+	}
+
+	resp, err := promptHTTPClient.Do(req)
 	if err != nil {
 		return "", err
 	}

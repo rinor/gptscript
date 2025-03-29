@@ -334,6 +334,8 @@ func (e *Engine) runCommandTools(ctx Context, tool types.Tool, input string) (*R
 		return e.runEcho(tool)
 	} else if tool.IsCall() {
 		return e.runCall(ctx, tool, input)
+	} else if tool.IsInterpExpr() {
+		return e.runInterpExpr(ctx, input)
 	}
 	s, err := e.runCommand(ctx, tool, input)
 	return &Return{

@@ -16,6 +16,8 @@ import (
 )
 
 const (
+	InterpExprPrefix = "#!sys.interp.expr"
+
 	DaemonPrefix    = "#!sys.daemon"
 	OpenAPIPrefix   = "#!sys.openapi"
 	EchoPrefix      = "#!sys.echo"
@@ -906,6 +908,10 @@ func (t Tool) IsCall() bool {
 func (t Tool) IsHTTP() bool {
 	return strings.HasPrefix(t.Instructions, "#!http://") ||
 		strings.HasPrefix(t.Instructions, "#!https://")
+}
+
+func (t Tool) IsInterpExpr() bool {
+	return strings.HasPrefix(t.Instructions, InterpExprPrefix)
 }
 
 func FirstSet[T comparable](in ...T) (result T) {
